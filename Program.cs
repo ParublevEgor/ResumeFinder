@@ -1,4 +1,10 @@
 
+using Microsoft.EntityFrameworkCore;
+using ResumeFinder.Domain.Contracts;
+using ResumeFinder.Domain.Storage;
+using ResumeFinder.Repositories;
+using ResumeFinder.Services;
+
 namespace ResumeFinder
 {
     public class Program
@@ -7,7 +13,19 @@ namespace ResumeFinder
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
+            builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
+            builder.Services.AddScoped<IWorkPlaceRepository, WorkPlaceRepository>();
+            builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IWorkerService, WorkerService>();
+            builder.Services.AddScoped<IResumeServices, ResumeService>();
+            builder.Services.AddScoped<IWorkPlaceService, WorkPlaceService>();
+            builder.Services.AddScoped<ISpecializationService, SpecializationService>();
+
+            builder.Services.AddDbContext<ResumeFinderContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
