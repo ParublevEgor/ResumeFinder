@@ -4,6 +4,7 @@ using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Storage;
 using ResumeFinder.Repositories;
 using ResumeFinder.Services;
+using ResumeFinder.Utils;
 
 namespace ResumeFinder
 {
@@ -24,11 +25,14 @@ namespace ResumeFinder
             builder.Services.AddScoped<IResumeServices, ResumeService>();
             builder.Services.AddScoped<IWorkPlaceService, WorkPlaceService>();
             builder.Services.AddScoped<ISpecializationService, SpecializationService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             builder.Services.AddDbContext<ResumeFinderContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
 
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
