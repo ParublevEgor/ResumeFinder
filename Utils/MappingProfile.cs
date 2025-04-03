@@ -9,6 +9,9 @@ namespace ResumeFinder.Utils
         public MappingProfile()
         {
             CreateMap<Worker, WorkerDTO>().ReverseMap();
+            CreateMap<Resume, ResumeDTO>().ReverseMap();
+            CreateMap<WorkPlace, WorkPlaceDTO>().ReverseMap();
+            CreateMap<Specialization, SpecializationDTO>().ReverseMap();
         }
     }
 }

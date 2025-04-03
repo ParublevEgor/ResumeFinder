@@ -22,7 +22,7 @@ namespace ResumeFinder
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IWorkerService, WorkerService>();
-            builder.Services.AddScoped<IResumeServices, ResumeService>();
+            builder.Services.AddScoped<IResumeService, ResumeService>();
             builder.Services.AddScoped<IWorkPlaceService, WorkPlaceService>();
             builder.Services.AddScoped<ISpecializationService, SpecializationService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();

@@ -1,8 +1,8 @@
 ﻿using ResumeFinder.Domain.Models;
 
-namespace ResumeFinder.Domain.Storage
+namespace ResumeFinder.Domain.Contracts
 {
-    public interface IResumeRepository : IBaseRepository<Resume>
+    public interface IResumeService : IBaseService<Resume>
     {
         Task<ICollection<Resume>> GetByUserAsync(long userId, CancellationToken token);
     }
