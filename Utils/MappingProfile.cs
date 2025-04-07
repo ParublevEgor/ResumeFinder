@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ResumeFinder.Domain.Models;
 using ResumeFinder.DTO;
+using ResumeFinder.DTO.Requests;
 
 namespace ResumeFinder.Utils
 {
@@ -10,8 +11,10 @@ namespace ResumeFinder.Utils
         {
             CreateMap<Worker, WorkerDTO>().ReverseMap();
             CreateMap<Resume, ResumeDTO>().ReverseMap();
-            CreateMap<WorkPlace, WorkPlaceDTO>().ReverseMap();
+            CreateMap<WorkPlace, ResumeWorkPlaceDTO>().ReverseMap();
             CreateMap<Specialization, SpecializationDTO>().ReverseMap();
+            CreateMap<UpdateResumeRequest, Resume>();
+            CreateMap<WorkPlace, WorkPlaceDTO>().ReverseMap();
         }
     }
 }

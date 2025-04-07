@@ -1,6 +1,9 @@
-﻿namespace ResumeFinder.DTO
+﻿using ResumeFinder.Domain.Models.Enums;
+using ResumeFinder.Domain.Models;
+
+namespace ResumeFinder.DTO
 {
-    public class WorkPlaceDTO
+    public class ResumeWorkPlaceDTO
     {
         public long Id { get; set; }
 
@@ -10,7 +13,7 @@
 
         public DateTime? To { get; set; }
 
-        public long SpecializationId { get; set; }
+        public SpecializationDTO Specialization { get; set; }
 
         public string Description { get; set; }
 

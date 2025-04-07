@@ -10,6 +10,6 @@ namespace ResumeFinder.DTO
 
         public string Name { get; set; }
 
-        public List<WorkPlaceDTO> WorkPlaces { get; set; }
+        public List<ResumeWorkPlaceDTO> WorkPlaces { get; set; }
     }
 }

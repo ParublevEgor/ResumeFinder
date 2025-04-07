@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Models;
 using ResumeFinder.DTO;
+using ResumeFinder.DTO.Requests;
 using ResumeFinder.Services;
 
 namespace ResumeFinder.Controllers
@@ -58,6 +59,15 @@ namespace ResumeFinder.Controllers
             Resume addedResume = await _resumeService.AddAsync(resume, token);
             ResumeDTO addedResumeDTO = _mapper.Map<ResumeDTO>(addedResume);
             return Ok(addedResumeDTO);
+        }
+
+        [HttpPut(nameof(Update))]
+        public async Task<IActionResult> Update([FromBody] UpdateResumeRequest resumeRequest, CancellationToken token)
+        {
+            Resume resume = _mapper.Map<Resume>(resumeRequest);
+            Resume updatedResume = await _resumeService.UpdateAsync(resume, token);
+            ResumeDTO updatedResumeDTO = _mapper.Map<ResumeDTO>(updatedResume);
+            return Ok(updatedResumeDTO);
         }
     }
 }

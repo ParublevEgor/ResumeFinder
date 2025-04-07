@@ -24,6 +24,8 @@ namespace ResumeFinder.Domain.Models
 
         public string Information { get; set; }
 
+        public Guid? ImageUUID { get; set; }
+
         public ICollection<Resume> Resumes { get; set; }
     }
 }
