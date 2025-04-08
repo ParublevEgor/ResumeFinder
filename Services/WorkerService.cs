@@ -16,7 +16,7 @@ namespace ResumeFinder.Services
         {
             Worker? worker = await GetAsync(workerId, token);
             if (worker is null)
-                throw new Exception("Пользователь не найден!");
+                throw new Exception("Пользователь не найден.");
 
             if (!worker.ImageUUID.HasValue)
                 throw new Exception("У пользователя нет изображения.");
