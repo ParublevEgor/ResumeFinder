@@ -41,5 +41,23 @@ namespace ResumeFinder.Controllers
             WorkerDTO workerDTO = _mapper.Map<WorkerDTO>(createdWorker);
             return Ok(workerDTO);
         }
+
+        [HttpPost(nameof(RegisterCustomer))]
+        public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRegistrationRequest registrationRequest, CancellationToken token)
+        {
+            RegisterCustomerParams registerCustomerParams = new RegisterCustomerParams()
+            {
+                Login = registrationRequest.Login,
+                Password = registrationRequest.Password,
+                Name = registrationRequest.Name,
+                Surname = registrationRequest.Surname,
+                PhoneNumber = registrationRequest.PhoneNumber,
+                Email = registrationRequest.Email,
+                CompanyName = registrationRequest.CompanyName,
+            };
+            Customer createdCustomer = await _authenticationService.RegisterCustomerAsync(registerCustomerParams, token);
+            CustomerDTO customerDTO = _mapper.Map<CustomerDTO>(createdCustomer);
+            return Ok(customerDTO);
+        }
     }
 }

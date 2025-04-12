@@ -8,5 +8,7 @@ namespace ResumeFinder.Domain.Contracts
         Task<User?> GetByLoginAndPasswordAsync(string login, string password, CancellationToken token);
 
         Task<Worker> RegisterWorkerAsync(RegisterWorkerParams registerParams, CancellationToken token);
+
+        Task<Customer> RegisterCustomerAsync(RegisterCustomerParams registerParams, CancellationToken token);
     }
 }

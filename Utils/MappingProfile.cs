@@ -15,6 +15,7 @@ namespace ResumeFinder.Utils
             CreateMap<Specialization, SpecializationDTO>().ReverseMap();
             CreateMap<UpdateResumeRequest, Resume>();
             CreateMap<WorkPlace, WorkPlaceDTO>().ReverseMap();
+            CreateMap<Customer, CustomerDTO>().ReverseMap();
         }
     }
 }

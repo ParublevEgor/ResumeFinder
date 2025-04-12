@@ -11,16 +11,34 @@ namespace ResumeFinder.Services
     {
         private readonly IUserService _userService;
         private readonly IWorkerService _workerService;
+        private readonly ICustomerService _customerService;
 
-        public AuthenticationService(IUserService userService, IWorkerService workerService)
+        public AuthenticationService(IUserService userService, IWorkerService workerService, ICustomerService customerService)
         {
             _userService = userService;
             _workerService = workerService;
+            _customerService = customerService;
         }
 
         public Task<User?> GetByLoginAndPasswordAsync(string login, string password, CancellationToken token)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Customer> RegisterCustomerAsync(RegisterCustomerParams registerParams, CancellationToken token)
+        {
+            User createdUser = await AddUserAsync(registerParams.Login, registerParams.Password, Role.Customer, token);
+
+            Customer customer = new Customer()
+            {
+                Name = registerParams.Name,
+                Surname = registerParams.Surname,
+                PhoneNumber = registerParams.PhoneNumber,
+                Email = registerParams.Email,
+                CompanyName = registerParams.CompanyName,
+                UserId = createdUser.Id
+            };
+            return await _customerService.AddAsync(customer, token);
         }
 
         public async Task<Worker> RegisterWorkerAsync(RegisterWorkerParams registerParams, CancellationToken token)

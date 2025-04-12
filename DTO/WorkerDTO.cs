@@ -22,5 +22,7 @@ namespace ResumeFinder.DTO
         public string Gender { get; set; }
 
         public string Information { get; set; }
+
+        public Guid? ImageUUID { get; set; }
     }
 }

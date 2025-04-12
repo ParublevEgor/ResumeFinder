@@ -10,6 +10,8 @@ namespace ResumeFinder.Repositories
 
         public DbSet<Worker> Workers { get; set; }
 
+        public DbSet<Customer> Customers { get; set; }
+
         public DbSet<Resume> Resumes { get; set; }
 
         public DbSet<WorkPlace> WorkPlaces { get; set; }

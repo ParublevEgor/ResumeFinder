@@ -50,5 +50,36 @@ namespace ResumeFinder.Controllers
             await _workerService.RemoveAsync(id, token);
             return Ok();
         }
+
+        [HttpDelete(nameof(RemoveAvatar))]
+        public async Task<IActionResult> RemoveAvatar([FromQuery] long id, CancellationToken token)
+        {
+            await _workerService.RemoveAvatarAsync(id, token);
+            return Ok();
+        }
+
+        [HttpPost(nameof(UploadAvatar))]
+        public async Task<IActionResult> UploadAvatar([FromQuery] long workerId, IFormFile file, CancellationToken token)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл не указан.");
+            using var stream = file.OpenReadStream();
+            await _workerService.UploadAvatarImageAsync(stream, workerId, token);
+            return Ok();
+        }
+
+        [HttpGet(nameof(GetAvatar))]
+        public async Task<IActionResult> GetAvatar([FromQuery] long workerId, CancellationToken token)
+        {
+            try
+            {
+                var stream = await _workerService.GetAvatarAsync(workerId, token);
+                return File(stream, "image/jpg");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

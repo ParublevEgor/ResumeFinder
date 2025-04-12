@@ -27,6 +27,7 @@ namespace ResumeFinder.Services
             string fileName = $"{imageUUID}.jpg";
             string filePath = Path.Combine(_storagePath, fileName);
             File.Delete(filePath);
+
             return Task.CompletedTask;
         }
 

@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Storage;
+using ResumeFinder.Options;
 using ResumeFinder.Repositories;
 using ResumeFinder.Services;
+using ResumeFinder.Storage;
 using ResumeFinder.Utils;
 
 namespace ResumeFinder
@@ -18,6 +20,7 @@ namespace ResumeFinder
             builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
             builder.Services.AddScoped<IWorkPlaceRepository, WorkPlaceRepository>();
             builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IWorkerService, WorkerService>();
@@ -26,6 +29,9 @@ namespace ResumeFinder
             builder.Services.AddScoped<ISpecializationService, SpecializationService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<IImageService, ImageService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+            builder.Services.Configure<ImageOptions>(builder.Configuration.GetSection(nameof(ImageOptions)));
 
             builder.Services.AddDbContext<ResumeFinderContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
 
