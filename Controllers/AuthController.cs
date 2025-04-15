@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Models;
@@ -11,6 +12,7 @@ namespace ResumeFinder.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
@@ -58,6 +60,15 @@ namespace ResumeFinder.Controllers
             Customer createdCustomer = await _authenticationService.RegisterCustomerAsync(registerCustomerParams, token);
             CustomerDTO customerDTO = _mapper.Map<CustomerDTO>(createdCustomer);
             return Ok(customerDTO);
+        }
+
+        [HttpPost(nameof(Login))]
+        public async Task<IActionResult> Login([FromBody]LoginRequest loginRequest, CancellationToken token)
+        {
+            string? jwtToken = await _authenticationService.GetByLoginAndPasswordAsync(loginRequest.Login, loginRequest.Password, token);
+            if (string.IsNullOrWhiteSpace(jwtToken))
+                return Unauthorized();
+            return Ok(jwtToken);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace ResumeFinder.Domain.Contracts
 {
     public interface IAuthenticationService
     {
-        Task<User?> GetByLoginAndPasswordAsync(string login, string password, CancellationToken token);
+        Task<string?> GetByLoginAndPasswordAsync(string login, string password, CancellationToken token);
 
         Task<Worker> RegisterWorkerAsync(RegisterWorkerParams registerParams, CancellationToken token);
 

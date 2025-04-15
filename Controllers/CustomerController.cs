@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Models;
@@ -21,6 +22,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(GetAll))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetAll(CancellationToken token)
         {
             ICollection<Customer> customers = await _customerService.GetAllAsync(token);
@@ -29,6 +31,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(Get))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> Get([FromQuery] long id, CancellationToken token)
         {
             Customer? customer = await _customerService.GetAsync(id, token);
@@ -37,6 +40,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpPut(nameof(Update))]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Update([FromBody] CustomerDTO customerDTO, CancellationToken token)
         {
             Customer customer = _mapper.Map<Customer>(customerDTO);
@@ -46,6 +50,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpDelete(nameof(Delete))]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)
         {
             await _customerService.RemoveAsync(id, token);

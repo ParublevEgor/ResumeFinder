@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Models;
@@ -10,6 +11,7 @@ namespace ResumeFinder.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ResumeController : Controller
     {
         private readonly IMapper _mapper;
@@ -22,6 +24,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(GetAll))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetAll(CancellationToken token)
         {
             ICollection<Resume> resumes = await _resumeService.GetAllAsync(token);
@@ -30,6 +33,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(Get))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> Get([FromQuery] long id, CancellationToken token)
         {
             Resume? resume = await _resumeService.GetAsync(id, token);
@@ -38,6 +42,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(GetByUser))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetByUser([FromQuery] long userId, CancellationToken token)
         {
             ICollection<Resume> resumes = await _resumeService.GetByUserAsync(userId, token);
@@ -46,6 +51,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpDelete(nameof(Delete))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)
         {
             await _resumeService.RemoveAsync(id, token);
@@ -53,6 +59,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpPost(nameof(Add))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Add([FromBody] ResumeDTO resumeDTO, CancellationToken token)
         {
             Resume resume = _mapper.Map<Resume>(resumeDTO);
@@ -62,6 +69,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpPut(nameof(Update))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Update([FromBody] UpdateResumeRequest resumeRequest, CancellationToken token)
         {
             Resume resume = _mapper.Map<Resume>(resumeRequest);

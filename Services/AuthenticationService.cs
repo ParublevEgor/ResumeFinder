@@ -1,7 +1,11 @@
-﻿using ResumeFinder.Domain.Contracts;
+﻿using Microsoft.IdentityModel.Tokens;
+using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Models;
 using ResumeFinder.Domain.Models.Enums;
 using ResumeFinder.Services.Params;
+using ResumeFinder.Utils;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -20,9 +24,30 @@ namespace ResumeFinder.Services
             _customerService = customerService;
         }
 
-        public Task<User?> GetByLoginAndPasswordAsync(string login, string password, CancellationToken token)
+        public async Task<string?> GetByLoginAndPasswordAsync(string login, string password, CancellationToken token)
         {
-            throw new NotImplementedException();
+            string passwordHash = ComputeHash(password);
+            var user =  await _userService.GetByLoginAndPasswordAsync(login, passwordHash, token);
+            if (user == null)
+                return null;
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
+            };
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            var jwt = new JwtSecurityToken(
+                AuthOptions.ISSUER,
+                AuthOptions.AUDIENCE,
+                claimsIdentity.Claims,
+                DateTime.UtcNow,
+                DateTime.UtcNow.AddDays(1),
+                new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
         public async Task<Customer> RegisterCustomerAsync(RegisterCustomerParams registerParams, CancellationToken token)

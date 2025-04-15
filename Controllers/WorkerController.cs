@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumeFinder.Domain.Contracts;
 using ResumeFinder.Domain.Models;
@@ -8,6 +9,7 @@ namespace ResumeFinder.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class WorkerController : Controller
     {
         private readonly IMapper _mapper;
@@ -20,6 +22,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(GetAll))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetAll(CancellationToken token)
         {
             ICollection<Worker> workers = await _workerService.GetAllAsync(token);
@@ -28,6 +31,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(Get))]
+        [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> Get([FromQuery]long id, CancellationToken token)
         {
             Worker? worker = await _workerService.GetAsync(id, token);
@@ -36,6 +40,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpPut(nameof(Update))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Update([FromBody]WorkerDTO workerDTO, CancellationToken token)
         {
             Worker worker = _mapper.Map<Worker>(workerDTO);
@@ -45,6 +50,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpDelete(nameof(Delete))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)
         {
             await _workerService.RemoveAsync(id, token);
@@ -52,6 +58,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpDelete(nameof(RemoveAvatar))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> RemoveAvatar([FromQuery] long id, CancellationToken token)
         {
             await _workerService.RemoveAvatarAsync(id, token);
@@ -59,6 +66,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpPost(nameof(UploadAvatar))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> UploadAvatar([FromQuery] long workerId, IFormFile file, CancellationToken token)
         {
             if (file == null || file.Length == 0)
@@ -69,6 +77,7 @@ namespace ResumeFinder.Controllers
         }
 
         [HttpGet(nameof(GetAvatar))]
+        [Authorize(Roles = "Worker")]
         public async Task<IActionResult> GetAvatar([FromQuery] long workerId, CancellationToken token)
         {
             try
