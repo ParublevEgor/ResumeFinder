@@ -2,6 +2,9 @@
 
 namespace ResumeFinder.Domain.Storage
 {
+    /// <summary>
+    /// Репозиторий специализации
+    /// </summary>
     public interface ISpecializationRepository : IBaseRepository<Specialization>
     {
     }

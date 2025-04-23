@@ -27,18 +27,8 @@ namespace ResumeFinder.Controllers
         [HttpPost(nameof(RegisterWorker))]
         public async Task<IActionResult> RegisterWorker([FromBody]WorkerRegistrationRequest registrationRequest, CancellationToken token)
         {
-            RegisterWorkerParams registerWorkerParams = new RegisterWorkerParams()
-            {
-                Login = registrationRequest.Login,
-                Password = registrationRequest.Password,
-                Name = registrationRequest.Name,
-                Surname = registrationRequest.Surname,
-                Birthday = registrationRequest.Birthday.ToUniversalTime(),
-                PhoneNumber = registrationRequest.PhoneNumber,
-                Email = registrationRequest.Email,
-                Gender = Enum.Parse<Gender>(registrationRequest.Gender),
-                Information = registrationRequest.Information
-            };
+            RegisterWorkerParams registerWorkerParams = _mapper.Map<RegisterWorkerParams>(registrationRequest);
+
             Worker createdWorker = await _authenticationService.RegisterWorkerAsync(registerWorkerParams, token);
             WorkerDTO workerDTO = _mapper.Map<WorkerDTO>(createdWorker);
             return Ok(workerDTO);
@@ -47,16 +37,8 @@ namespace ResumeFinder.Controllers
         [HttpPost(nameof(RegisterCustomer))]
         public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRegistrationRequest registrationRequest, CancellationToken token)
         {
-            RegisterCustomerParams registerCustomerParams = new RegisterCustomerParams()
-            {
-                Login = registrationRequest.Login,
-                Password = registrationRequest.Password,
-                Name = registrationRequest.Name,
-                Surname = registrationRequest.Surname,
-                PhoneNumber = registrationRequest.PhoneNumber,
-                Email = registrationRequest.Email,
-                CompanyName = registrationRequest.CompanyName,
-            };
+            RegisterCustomerParams registerCustomerParams = _mapper.Map<RegisterCustomerParams>(registrationRequest);
+
             Customer createdCustomer = await _authenticationService.RegisterCustomerAsync(registerCustomerParams, token);
             CustomerDTO customerDTO = _mapper.Map<CustomerDTO>(createdCustomer);
             return Ok(customerDTO);
