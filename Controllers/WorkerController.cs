@@ -7,6 +7,9 @@ using ResumeFinder.DTO;
 
 namespace ResumeFinder.Controllers
 {
+    /// <summary>
+    /// Контроллер для работника
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -21,6 +24,11 @@ namespace ResumeFinder.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Метод для получение всех работников
+        /// </summary>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(GetAll))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetAll(CancellationToken token)
@@ -30,6 +38,12 @@ namespace ResumeFinder.Controllers
             return Ok(workerDTOs);
         }
 
+        /// <summary>
+        /// Метод для получения работника по его Id
+        /// </summary>
+        /// <param name="id">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(Get))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> Get([FromQuery]long id, CancellationToken token)
@@ -39,6 +53,12 @@ namespace ResumeFinder.Controllers
             return Ok(workerDTO);
         }
 
+        /// <summary>
+        /// Метод для обновления данных работника
+        /// </summary>
+        /// <param name="workerDTO">Параметры работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPut(nameof(Update))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Update([FromBody]WorkerDTO workerDTO, CancellationToken token)
@@ -49,6 +69,12 @@ namespace ResumeFinder.Controllers
             return Ok(updatedWorkerDTO);
         }
 
+        /// <summary>
+        /// Метод для удаления работника
+        /// </summary>
+        /// <param name="id">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpDelete(nameof(Delete))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)
@@ -57,6 +83,12 @@ namespace ResumeFinder.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для удаления аватара работника
+        /// </summary>
+        /// <param name="id">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpDelete(nameof(RemoveAvatar))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> RemoveAvatar([FromQuery] long id, CancellationToken token)
@@ -65,6 +97,13 @@ namespace ResumeFinder.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для загрузки аватара работника
+        /// </summary>
+        /// <param name="workerId">Id работника</param>
+        /// <param name="file">Название файла</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPost(nameof(UploadAvatar))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> UploadAvatar([FromQuery] long workerId, IFormFile file, CancellationToken token)
@@ -76,6 +115,12 @@ namespace ResumeFinder.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для получения аватара работника
+        /// </summary>
+        /// <param name="workerId">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(GetAvatar))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> GetAvatar([FromQuery] long workerId, CancellationToken token)

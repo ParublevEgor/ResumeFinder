@@ -9,6 +9,9 @@ using ResumeFinder.Services;
 
 namespace ResumeFinder.Controllers
 {
+    /// <summary>
+    /// Контроллер для резюме
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -23,6 +26,11 @@ namespace ResumeFinder.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Метод для получения всех резюме
+        /// </summary>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(GetAll))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetAll(CancellationToken token)
@@ -32,6 +40,12 @@ namespace ResumeFinder.Controllers
             return Ok(resumeDTOs);
         }
 
+        /// <summary>
+        /// Метод для получения резюме по Id
+        /// </summary>
+        /// <param name="id">Id резюме</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(Get))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> Get([FromQuery] long id, CancellationToken token)
@@ -41,6 +55,12 @@ namespace ResumeFinder.Controllers
             return Ok(resumeDTO);
         }
 
+        /// <summary>
+        /// Метод для получения резюме работника
+        /// </summary>
+        /// <param name="userId">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(GetByUser))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetByUser([FromQuery] long userId, CancellationToken token)
@@ -50,6 +70,12 @@ namespace ResumeFinder.Controllers
             return Ok(resumeDTOs);
         }
 
+        /// <summary>
+        /// Метод для удаления резюме
+        /// </summary>
+        /// <param name="id">Id резюме</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpDelete(nameof(Delete))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)
@@ -58,6 +84,12 @@ namespace ResumeFinder.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для добавления резюме
+        /// </summary>
+        /// <param name="resumeDTO">Данные резюме</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPost(nameof(Add))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Add([FromBody] ResumeDTO resumeDTO, CancellationToken token)
@@ -68,6 +100,12 @@ namespace ResumeFinder.Controllers
             return Ok(addedResumeDTO);
         }
 
+        /// <summary>
+        /// Метод для обновления резюме
+        /// </summary>
+        /// <param name="resumeRequest">Данные резюме</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPut(nameof(Update))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Update([FromBody] UpdateResumeRequest resumeRequest, CancellationToken token)

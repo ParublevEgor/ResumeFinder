@@ -4,6 +4,9 @@ using ResumeFinder.Domain.Storage;
 
 namespace ResumeFinder.Services
 {
+    /// <summary>
+    /// Сервис для сущности работника
+    /// </summary>
     public class WorkerService : BaseService<Worker>, IWorkerService
     {
         private readonly IImageService _imageService;
@@ -12,6 +15,13 @@ namespace ResumeFinder.Services
             _imageService = imageService;
         }
 
+        /// <summary>
+        /// Метод для получения аватарки
+        /// </summary>
+        /// <param name="workerId">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Аватар работника</returns>
+        /// <exception cref="Exception">Обработка ошибки</exception>
         public async Task<Stream> GetAvatarAsync(long workerId, CancellationToken token)
         {
             Worker? worker = await GetAsync(workerId, token);
@@ -24,6 +34,13 @@ namespace ResumeFinder.Services
             return await _imageService.GetImageAsync(worker.ImageUUID.Value, token);
         }
 
+        /// <summary>
+        /// Метод для удаления аватарки
+        /// </summary>
+        /// <param name="workerId">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Обработка ошибки</exception>
         public async Task RemoveAvatarAsync(long workerId, CancellationToken token)
         {
             Worker? worker = await GetAsync(workerId, token);
@@ -39,6 +56,14 @@ namespace ResumeFinder.Services
             await _imageService.RemoveImageAsync(avatarId, token);
         }
 
+        /// <summary>
+        /// Метод для загрузки аватарки
+        /// </summary>
+        /// <param name="image">Изображение</param>
+        /// <param name="workerId">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Обработка ошибки</exception>
         public async Task UploadAvatarImageAsync(Stream image, long workerId, CancellationToken token)
         {
             Worker? worker = await GetAsync(workerId, token);

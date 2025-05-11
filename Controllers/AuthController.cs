@@ -10,6 +10,9 @@ using ResumeFinder.Services.Params;
 
 namespace ResumeFinder.Controllers
 {
+    /// <summary>
+    /// Контроллер для авторизации пользователя
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [AllowAnonymous]
@@ -24,6 +27,12 @@ namespace ResumeFinder.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Метод для регистрации работника
+        /// </summary>
+        /// <param name="registrationRequest">Данные для регистрации</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPost(nameof(RegisterWorker))]
         public async Task<IActionResult> RegisterWorker([FromBody]WorkerRegistrationRequest registrationRequest, CancellationToken token)
         {
@@ -34,6 +43,12 @@ namespace ResumeFinder.Controllers
             return Ok(workerDTO);
         }
 
+        /// <summary>
+        /// Метод для регистрации заказчика
+        /// </summary>
+        /// <param name="registrationRequest">Данные для регистрации</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPost(nameof(RegisterCustomer))]
         public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRegistrationRequest registrationRequest, CancellationToken token)
         {
@@ -44,6 +59,12 @@ namespace ResumeFinder.Controllers
             return Ok(customerDTO);
         }
 
+        /// <summary>
+        /// Метод для входа пользователя
+        /// </summary>
+        /// <param name="loginRequest">Данные для входа</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPost(nameof(Login))]
         public async Task<IActionResult> Login([FromBody]LoginRequest loginRequest, CancellationToken token)
         {

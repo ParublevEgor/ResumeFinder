@@ -9,6 +9,9 @@ using System.Diagnostics.Contracts;
 
 namespace ResumeFinder.Controllers
 {
+    /// <summary>
+    /// Контроллер для мест работы
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -23,6 +26,12 @@ namespace ResumeFinder.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Метод для добавления мест работы
+        /// </summary>
+        /// <param name="workplaceDTO">Параметры мест работы</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPost(nameof(Add))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Add([FromBody] WorkPlaceDTO workplaceDTO, CancellationToken token)
@@ -33,6 +42,12 @@ namespace ResumeFinder.Controllers
             return Ok(addedWorkPlaceDTO);
         }
 
+        /// <summary>
+        /// Метод для обновления мест работы
+        /// </summary>
+        /// <param name="workplaceDTO">Параметры мест работы</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPut(nameof(Update))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Update([FromBody] WorkPlaceDTO workplaceDTO, CancellationToken token)
@@ -43,6 +58,12 @@ namespace ResumeFinder.Controllers
             return Ok(updatedWorkPlaceDTO);
         }
 
+        /// <summary>
+        /// Метод для удаления мест работы
+        /// </summary>
+        /// <param name="id">Id работника</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpDelete(nameof(Delete))]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)

@@ -8,6 +8,9 @@ using ResumeFinder.Services;
 
 namespace ResumeFinder.Controllers
 {
+    /// <summary>
+    /// Контроллер для заказчика
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CustomerController : Controller
@@ -21,6 +24,11 @@ namespace ResumeFinder.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Метод для GET-запроса
+        /// </summary>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(GetAll))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> GetAll(CancellationToken token)
@@ -30,6 +38,12 @@ namespace ResumeFinder.Controllers
             return Ok(customerDTOs);
         }
 
+        /// <summary>
+        /// Метод для GET-запроса
+        /// </summary>
+        /// <param name="id">Id пользователя</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpGet(nameof(Get))]
         [Authorize(Roles = "Customer, Worker")]
         public async Task<IActionResult> Get([FromQuery] long id, CancellationToken token)
@@ -39,6 +53,12 @@ namespace ResumeFinder.Controllers
             return Ok(customerDTO);
         }
 
+        /// <summary>
+        /// Метод для PUT-запроса
+        /// </summary>
+        /// <param name="customerDTO">Данные заказчика</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpPut(nameof(Update))]
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Update([FromBody] CustomerDTO customerDTO, CancellationToken token)
@@ -49,6 +69,12 @@ namespace ResumeFinder.Controllers
             return Ok(updatedCustomerDTO);
         }
 
+        /// <summary>
+        /// Метод для DELETE-запроса
+        /// </summary>
+        /// <param name="id">Id заказчика</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Состояние запроса</returns>
         [HttpDelete(nameof(Delete))]
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Delete([FromQuery] long id, CancellationToken token)
